@@ -1,0 +1,56 @@
+﻿@page "/people"
+@inject IDataGenerator _data
+
+<div class="d-flex justify-content-evenly">
+    <h3 class="fw-bold">People</h3>
+    <button type="button" class="btn btn-outline-primary" @onclick="LoadData">Load One Person</button>
+    <button type="button" class="btn btn-outline-primary" @onclick="LoadDataForever">Load People</button>
+</div>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Address</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Zip</th>
+            <th>Credit Rating</th>
+        </tr>
+    </thead>
+    <tbody>
+        <Virtualize Items="people" Context="person">
+            <tr>
+                <td>@person.Id</td>
+                <td>@person.FirstName</td>
+                <td>@person.LastName</td>
+                <td>@person.Email</td>
+                <td>@person.Phone</td>
+                <td>@person.Address</td>
+                <td>@person.City</td>
+                <td>@person.State</td>
+                <td>@person.ZipCode</td>
+                <td>@person.CreditRating</td>
+            </tr>
+        </Virtualize>
+    </tbody>
+</table>
+
+
+@code {
+    List<PersonModel> people = new();
+
+    private void LoadData()
+    {
+        people.Add(_data.GeneratePerson());
+    }
+
+    private void LoadDataForever()
+    {
+        people.AddRange(_data.GeneratePeople().Take(10000));
+    }
+}
